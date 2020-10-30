@@ -13,9 +13,19 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<any>{
-    // map() de rxjs me permite tomar la respuesta o la data que 
+    // El pipe() me permite manipular, transforma y hacer
+    // otras cosas con los observables
+    // map() de rxjs me permite tomar la respuesta o la data que
     // viene del servicio y convertirla en algo
-    return this.http.get(`${this.URL}/users?per_page=6`)
+    return this.http.get(`${this.URL}/users?per_page=6&delay=3`)
+                    .pipe(
+                      map(res => res['data'])
+                    );
+  }
+
+
+  getUserById(id: string): Observable<any>{
+    return this.http.get(`${this.URL}/users/${id}`)
                     .pipe(
                       map(res => res['data'])
                     );
